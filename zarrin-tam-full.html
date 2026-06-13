@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>زرین تام اصفهان</title>
+<style>
+body{margin:0;font-family:tahoma;background:#111;color:#fff}
+header{background:linear-gradient(135deg,#000,#d4af37);padding:50px;text-align:center}
+nav{background:#000;padding:12px;display:flex;justify-content:center;gap:15px;flex-wrap:wrap}
+nav a{color:#d4af37;text-decoration:none}
+section{padding:20px}
+.card{background:#1e1e1e;border-radius:12px;padding:15px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+img{max-width:100%;border-radius:10px}
+input,textarea,button{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:none}
+button{background:#d4af37;font-weight:bold}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<header>
+<h1>باشگاه والیبال زرین تام اصفهان</h1>
+<p>نسخه حرفه‌ای تک‌فایلی</p>
+</header>
+
+<nav>
+<a href="#home">خانه</a>
+<a href="#players">بازیکنان</a>
+<a href="#matches">مسابقات</a>
+<a href="#news">اخبار</a>
+<a href="#gallery">گالری</a>
+</nav>
+
+<section id="home">
+<div class="card">
+<h2>معرفی باشگاه</h2>
+<p id="clubText">به وب‌سایت زرین تام خوش آمدید.</p>
+</div>
+</section>
+
+<section id="players"><h2>بازیکنان</h2><div id="playersBox" class="grid"></div></section>
+<section id="matches"><h2>مسابقات</h2><div id="matchesBox" class="grid"></div></section>
+<section id="news"><h2>اخبار</h2><div id="newsBox" class="grid"></div></section>
+<section id="gallery"><h2>گالری</h2><div id="galleryBox" class="grid"></div></section>
+
+<section>
+<h2>ورود مدیر</h2>
+<input id="u" placeholder="نام کاربری">
+<input id="p" type="password" placeholder="رمز عبور">
+<button onclick="login()">ورود</button>
+</section>
+
+<section id="admin" class="hidden">
+<h2>پنل مدیریت</h2>
+
+<h3>بازیکنان</h3>
+<input id="playerName" placeholder="نام بازیکن">
+<button onclick="addPlayer()">افزودن</button>
+
+<h3>مسابقات</h3>
+<input id="matchName" placeholder="نام مسابقه">
+<button onclick="addMatch()">افزودن</button>
+
+<h3>اخبار</h3>
+<input id="newsTitle" placeholder="عنوان خبر">
+<button onclick="addNews()">افزودن</button>
+
+<h3>گالری</h3>
+<input id="galleryText" placeholder="عنوان تصویر">
+<button onclick="addGallery()">افزودن</button>
+</section>
+
+<script>
+function login(){
+ if(u.value==='z.t' && p.value==='123321'){
+   admin.classList.remove('hidden');
+   alert('ورود موفق');
+ }else alert('اطلاعات اشتباه است');
+}
+
+function get(k){return JSON.parse(localStorage.getItem(k)||'[]')}
+function set(k,v){localStorage.setItem(k,JSON.stringify(v))}
+
+function addPlayer(){let a=get('players');a.push(playerName.value);set('players',a);load();}
+function addMatch(){let a=get('matches');a.push(matchName.value);set('matches',a);load();}
+function addNews(){let a=get('news');a.push(newsTitle.value);set('news',a);load();}
+function addGallery(){let a=get('gallery');a.push(galleryText.value);set('gallery',a);load();}
+
+function load(){
+ playersBox.innerHTML=get('players').map(x=>`<div class="card">${x}</div>`).join('');
+ matchesBox.innerHTML=get('matches').map(x=>`<div class="card">${x}</div>`).join('');
+ newsBox.innerHTML=get('news').map(x=>`<div class="card">${x}</div>`).join('');
+ galleryBox.innerHTML=get('gallery').map(x=>`<div class="card">${x}</div>`).join('');
+}
+load();
+</script>
+</body>
+</html>
